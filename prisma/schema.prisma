@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String          @id @default(cuid())
+  email     String          @unique
+  favorites FavoriteLine[]
+}
+
+model Line {
+  id        String          @id @default(cuid())
+  name      String
+  favorites FavoriteLine[]
+}
+
+model FavoriteLine {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  line   Line   @relation(fields: [lineId], references: [id])
+  lineId String
+
+  @@unique([userId, lineId]) // Evita duplicatas: um usuário não pode favoritar a mesma linha duas vezes
+}

@@ -1,3 +1,8 @@
+# app proximo onibus
+
+> Funcionalidade principal é exibir a partir do horário atual qual o próximo ônibus que vai sair, que o usuario sempre usa, o seu favorito
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
