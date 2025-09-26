@@ -7,24 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String          @id @default(cuid())
-  email     String          @unique
-  favorites FavoriteLine[]
+model usuario {
+  id         Int                 @id @default(autoincrement())
+  nome       String
+  email      String              @unique
+  senha      String
+  created_at DateTime            @default(now())
+
+  // Relações
+  favoritos favoritos_usuario[]
 }
 
-model Line {
-  id        String          @id @default(cuid())
-  name      String
-  favorites FavoriteLine[]
+model linhas {
+  id           Int                @id @default(autoincrement())
+  codigo_linha String
+  nome_linha   String
+  empresa      String?
+  status       Boolean            @default(true)
+  created_at   DateTime           @default(now())
+  updated_at   DateTime           @default(now())
+
+  // Relações
+  itinerarios       itinerarios[]
+  favoritos_usuario favoritos_usuario[]
 }
 
-model FavoriteLine {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-  line   Line   @relation(fields: [lineId], references: [id])
-  lineId String
+model destinos {
+  id         Int                @id @default(autoincrement())
+  nome       String
+  cidade     String
+  created_at DateTime           @default(now())
 
-  @@unique([userId, lineId]) // Evita duplicatas: um usuário não pode favoritar a mesma linha duas vezes
+  // Relações
+  itinerarios_origem   itinerarios[] @relation("itinerarios_origem")
+  itinerarios_destino  itinerarios[] @relation("itinerarios_destino")
+  favoritos_origem     favoritos_usuario[] @relation("favoritos_origem")
+  favoritos_destino    favoritos_usuario[] @relation("favoritos_destino")
+}
+
+model tipos_periodo {
+  id        Int          @id @default(autoincrement())
+  nome      String
+  descricao String
+
+  // Relações
+  itinerarios itinerarios[]
+}
+
+model itinerarios {
+  id              Int       @id @default(autoincrement())
+  linha_id        Int
+  origem_id       Int
+  destino_id      Int
+  horario_partida DateTime  // SQLite não tem TIME puro, salva como DateTime
+  tipo_periodo_id Int
+  ativo           Boolean   @default(true)
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now())
+
+  // Relações
+  linha       linhas       @relation(fields: [linha_id], references: [id])
+  origem      destinos     @relation("itinerarios_origem", fields: [origem_id], references: [id])
+  destino     destinos     @relation("itinerarios_destino", fields: [destino_id], references: [id])
+  tipo_periodo tipos_periodo @relation(fields: [tipo_periodo_id], references: [id])
+}
+
+model favoritos_usuario {
+  id         Int       @id @default(autoincrement())
+  usuario_id Int
+  linha_id   Int
+  origem_id  Int
+  destino_id Int
+  ordem      Int       @default(0)
+  created_at DateTime  @default(now())
+
+  // Relações
+  usuario usuario  @relation(fields: [usuario_id], references: [id])
+  linha   linhas   @relation(fields: [linha_id], references: [id])
+  origem  destinos @relation("favoritos_origem", fields: [origem_id], references: [id])
+  destino destinos @relation("favoritos_destino", fields: [destino_id], references: [id])
 }
