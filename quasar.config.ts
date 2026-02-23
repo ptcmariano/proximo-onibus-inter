@@ -57,7 +57,7 @@ export default defineConfig((/* ctx */) => {
       // ignorePublicFolder: true,
       // minify: false,
       // polyfillModulePreload: true,
-      // distDir
+      distDir: 'docs',
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
@@ -149,7 +149,7 @@ export default defineConfig((/* ctx */) => {
       // manifestFilename: 'manifest.json',
       // extendManifestJson (json) {},
       // useCredentialsForManifestTag: true,
-      // injectPwaMetaTags: false,
+      injectPwaMetaTags: true,
       // extendPWACustomSWConf (esbuildConf) {},
       // extendGenerateSWOptions (cfg) {},
       // extendInjectManifestOptions (cfg) {}
