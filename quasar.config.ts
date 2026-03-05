@@ -11,7 +11,9 @@ export default defineConfig((/* ctx */) => {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: [],
+    boot: [
+      //'google-analytics'
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
     css: ['app.scss'],
@@ -74,6 +76,17 @@ export default defineConfig((/* ctx */) => {
           },
           { server: false },
         ],
+        /*
+        [
+          'vite-plugin-ga4',
+          {
+            trackingId: 'G-281189846',
+            debug: true,
+            autoPageviews: true,
+            autoSessionTracking: true,
+          }
+        ],
+        */
       ],
     },
 
