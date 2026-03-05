@@ -1,7 +1,7 @@
 {
   "extends": "./.quasar/tsconfig.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "module": "esnext",
+    "moduleResolution": "bundler"
   }
 }
